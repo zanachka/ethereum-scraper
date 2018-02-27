@@ -24,7 +24,7 @@ Then use `ETH_JSON_RPC_URL=http://localhost:8545`
 `blocks.csv`
 
 Column                 | Type               |
----------------------------------------------
+-----------------------|---------------------
 block_number           | bigint             |
 block_hash             | hex_string         |
 block_parentHash       | hex_string         |
@@ -45,7 +45,7 @@ block_timestamp        | bigint             |
 `transactions.csv`
 
 Column              |    Type     |
------------------------------------
+--------------------|--------------
 tx_hash             | hex_string  |
 tx_nonce            | bigint      |
 tx_blockHash        | hex_string  |
