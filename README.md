@@ -2,7 +2,7 @@
 
 ## JSON RPC Scraper
  
-Run in command line (change the ETH_JSON_RPC_URL parameter):
+Run in terminal (change the ETH_JSON_RPC_URL parameter):
 
 ```
 > pip install Scrapy
