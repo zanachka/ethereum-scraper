@@ -4,7 +4,7 @@ Run in command line (change the ETH_JSON_RPC_URL parameter):
 
 ```
 > pip install Scrapy
-> scrapy runspider ethereumScraper/spiders/eth_json_rpc_spider.py -s ETH_JSON_RPC_URL=https://mainnet.infura.io/XXXXXXXXXXXXXXXXXXX -s START_BLOCK=0 -s END_BLOCK=1000000 >> ethereum-scraper.log 2>&1
+> scrapy runspider ethereumScraper/spiders/eth_json_rpc_spider.py -s ETH_JSON_RPC_URL=https://mainnet.infura.io/XXXXXXXXXXXXXXXXXXX -s START_BLOCK=0 -s END_BLOCK=1000000
 ```
 
 The output will be in blocks.csv and transactions.csv in the current directory.
