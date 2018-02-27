@@ -23,7 +23,7 @@ To scrape contract bytecode and Solidity code from Etherscan:
 
 ```
 > pip install Scrapy
-> scrapy runspider ethereumScraper/spiders/etherscan_contract_spider.py -o data.csv  >> data.log 2>> data.err
+> scrapy runspider ethereumScraper/spiders/etherscan_contract_spider.py -o data.csv
 ```
 
 Note that CloudFlare will block your machine after a few thousand requests.

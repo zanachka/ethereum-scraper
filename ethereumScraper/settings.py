@@ -11,7 +11,7 @@
 
 BOT_NAME = 'ethereumScraper'
 
-ETH_JSON_RPC_URL = 'https://mainnet.infura.io/XXXXXXXXXXXXXXXXXXX'
+ETH_JSON_RPC_URL = 'https://mainnet.infura.io/eQq8vdX3vS511ulZw8fr'
 # ETH_JSON_RPC_URL = 'http://localhost:8545'
 START_BLOCK = 0
 END_BLOCK = 10
@@ -27,7 +27,7 @@ ITEM_PIPELINES = {
 }
 
 DOWNLOADER_MIDDLEWARES = {
-    'scrapy.contrib.downloadermiddleware.retry.RetryMiddleware': 200
+    'scrapy.downloadermiddlewares.retry.RetryMiddleware': 200
 }
 
 RETRY_TIMES = 5
