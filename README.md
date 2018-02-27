@@ -11,7 +11,7 @@ Run in terminal (change the ETH_JSON_RPC_URL parameter):
 
 The output will be in `blocks.csv` and `transactions.csv` in the current directory.
 
-To scrape from local Ethereum node start geth with `--rpc` flag:
+To scrape from local Ethereum node start `geth` with `--rpc` flag:
 
 ```
 geth --rpc --rpccorsdomain "*"
