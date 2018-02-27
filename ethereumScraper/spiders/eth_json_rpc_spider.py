@@ -13,7 +13,9 @@ class JsonRpcSpider(scrapy.Spider):
         self.eth_client = EthJsonRpcClient(jsonrpc_url)
 
     def start_requests(self):
-        for i in range(self.settings['START_BLOCK'], self.settings['END_BLOCK']):
+        start_block = int(self.settings['START_BLOCK'])
+        end_block = int(self.settings['END_BLOCK'])
+        for i in range(start_block, end_block):
             request = self.eth_client.eth_getBlockByNumber(i)
             request.callback = self.parse_block
             yield request
