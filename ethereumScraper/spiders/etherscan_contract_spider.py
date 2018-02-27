@@ -4,23 +4,12 @@ NEXT_BUTTON_TEXT = 'Next'
 
 
 class EtherscanContractSpider(scrapy.Spider):
-    name = "contracts"
+    name = "EtherscanContractSpider"
     start_urls = [
         'https://etherscan.io/contractsVerified'
     ]
     custom_settings = {
-        'DOWNLOADER_MIDDLEWARES': {
-            'scrapy.contrib.downloadermiddleware.retry.RetryMiddleware': 200
-        },
         'FEED_EXPORT_FIELDS': ['address', 'bytecode', 'solidity'],
-        'RETRY_TIMES': 60,
-        'RETRY_HTTP_CODES': [500, 503, 504, 400, 403, 404, 408],
-        'AUTOTHROTTLE_ENABLED': True,
-        'AUTOTHROTTLE_START_DELAY': 5,
-        'AUTOTHROTTLE_MAX_DELAY': 120,
-        'AUTOTHROTTLE_TARGET_CONCURRENCY': 1,
-        'AUTOTHROTTLE_DEBUG': False,
-        'LOG_LEVEL': 'INFO'
     }
 
     def parse(self, contracts_verified_response):
