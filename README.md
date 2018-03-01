@@ -45,6 +45,7 @@ block_extraData        | hex_string         |
 block_gasLimit         | bigint             |
 block_gasUsed          | bigint             |
 block_timestamp        | bigint             |
+block_transactionCount | bigint             |
 
 `transactions.csv`
 

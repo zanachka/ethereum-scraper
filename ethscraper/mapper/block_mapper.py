@@ -1,0 +1,54 @@
+from ethscraper.domain.block import EthBlock
+from ethscraper.mapper.transaction_mapper import EthTransactionMapper
+from ethscraper.utils import hex_to_dec
+
+
+class EthBlockMapper(object):
+
+    transaction_mapper = EthTransactionMapper()
+
+    def json_dict_to_block(self, json_dict):
+        block = EthBlock()
+        block.number = hex_to_dec(json_dict.get('number', None))
+        block.hash = json_dict.get('hash', None)
+        block.parent_hash = json_dict.get('parentHash', None)
+        block.nonce = json_dict.get('nonce', None)
+        block.sha3_uncles = json_dict.get('sha3Uncles', None)
+        block.logs_bloom = json_dict.get('logsBloom', None)
+        block.transactions_root = json_dict.get('transactionsRoot', None)
+        block.state_root = json_dict.get('stateRoot', None)
+        block.miner = json_dict.get('miner', None)
+        block.difficulty = hex_to_dec(json_dict.get('difficulty', None))
+        block.total_difficulty = hex_to_dec(json_dict.get('totalDifficulty', None))
+        block.size = hex_to_dec(json_dict.get('size', None))
+        block.extra_data = json_dict.get('extraData', None)
+        block.gas_limit = hex_to_dec(json_dict.get('gasLimit', None))
+        block.gas_used = hex_to_dec(json_dict.get('gasUsed', None))
+        block.timestamp = json_dict.get('timestamp', None)
+
+        if 'transactions' in json_dict:
+            block.transactions = map(lambda tx: self.transaction_mapper.json_dict_to_transaction(tx), json_dict['transactions'])
+
+        return block
+
+    def block_to_dict(self, block):
+        return {
+            'type': 'b',
+            'block_number': block.number,
+            'block_hash': block.hash,
+            'block_parentHash': block.parent_hash,
+            'block_nonce': block.nonce,
+            'block_sha3Uncles': block.sha3_uncles,
+            'block_logsBloom': block.logs_bloom,
+            'block_transactionsRoot': block.transactions_root,
+            'block_stateRoot': block.state_root,
+            'block_miner': block.miner,
+            'block_difficulty': block.difficulty,
+            'block_totalDifficulty': block.total_difficulty,
+            'block_size': block.size,
+            'block_extraData': block.extra_data,
+            'block_gasLimit': block.gas_limit,
+            'block_gasUsed': block.gas_used,
+            'block_timestamp': block.timestamp,
+            'block_transactionCount': len(block.transactions),
+        }
