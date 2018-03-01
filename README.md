@@ -23,29 +23,38 @@ geth --rpc --rpccorsdomain "*"
 
 Then use `ETH_JSON_RPC_URL=http://localhost:8545`
 
+### Feed Formats
+
+- csv
+- xml
+- json
+- jsonlines [http://jsonlines.org/examples/](http://jsonlines.org/examples/)
+- pickle [https://docs.python.org/2/library/pickle.html](https://docs.python.org/2/library/pickle.html)
+- marshal
+
 ### Schema
 
 `blocks.csv`
 
-Column                 | Type               |
------------------------|---------------------
-block_number           | bigint             |
-block_hash             | hex_string         |
-block_parentHash       | hex_string         |
-block_nonce            | hex_string         |
-block_sha3Uncles       | hex_string         |
-block_logsBloom        | hex_string         |
-block_transactionsRoot | hex_string         |
-block_stateRoot        | hex_string         |
-block_miner            | hex_string         |
-block_difficulty       | bigint             |
-block_totalDifficulty  | bigint             |
-block_size             | bigint             |
-block_extraData        | hex_string         |
-block_gasLimit         | bigint             |
-block_gasUsed          | bigint             |
-block_timestamp        | bigint             |
-block_transactionCount | bigint             |
+Column                  | Type               |
+------------------------|---------------------
+block_number            | bigint             |
+block_hash              | hex_string         |
+block_parent_hash       | hex_string         |
+block_nonce             | hex_string         |
+block_sha3_uncles       | hex_string         |
+block_logs_bloom        | hex_string         |
+block_transactions_root | hex_string         |
+block_state_root        | hex_string         |
+block_miner             | hex_string         |
+block_difficulty        | bigint             |
+block_total_difficulty  | bigint             |
+block_size              | bigint             |
+block_extra_data        | hex_string         |
+block_gas_limit         | bigint             |
+block_gas_used          | bigint             |
+block_timestamp         | bigint             |
+block_transaction_count | bigint             |
 
 `transactions.csv`
 
@@ -53,14 +62,14 @@ Column              |    Type     |
 --------------------|--------------
 tx_hash             | hex_string  |
 tx_nonce            | bigint      |
-tx_blockHash        | hex_string  |
-tx_blockNumber      | bigint      |
-tx_transactionIndex | bigint      |
+tx_block_hash       | hex_string  |
+tx_block_number     | bigint      |
+tx_index            | bigint      |
 tx_from             | hex_string  |
 tx_to               | hex_string  |
 tx_value            | bigint      |
 tx_gas              | bigint      |
-tx_gasPrice         | bigint      |
+tx_gas_price        | bigint      |
 tx_input            | hex_string  |
 
 
