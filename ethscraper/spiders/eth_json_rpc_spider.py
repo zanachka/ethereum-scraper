@@ -26,6 +26,7 @@ class JsonRpcSpider(scrapy.Spider):
 
         for block_number in range(start_block, end_block + 1):
             request = self.eth_client.eth_getBlockByNumber(block_number)
+            request.errback = self.errback
             yield request
 
     def parse(self, response):
@@ -38,3 +39,5 @@ class JsonRpcSpider(scrapy.Spider):
         for tx in block.transactions:
             yield self.transaction_mapper.transaction_to_dict(tx)
 
+    def errback(self, failure):
+        self.logger.error(repr(failure))

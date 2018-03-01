@@ -28,7 +28,8 @@ class EthJsonRpcClient(object):
                               body=json.dumps(data),
                               headers={'Content-Type': 'application/json'})
 
-    def validate_block(self, block):
+    @staticmethod
+    def validate_block(block):
         if isinstance(block, int):
             block = hex(block)
         return block
