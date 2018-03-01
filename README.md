@@ -10,7 +10,7 @@ Run in the terminal (change the ETH_JSON_RPC_URL parameter):
 -s ETH_JSON_RPC_URL=https://mainnet.infura.io/<your_api_key> \
 -s START_BLOCK=0 \
 -s END_BLOCK=1000000 \
--s EXPORT_FORMAT=csv
+-s FEED_FORMAT=csv
 ```
 
 The output will be in `blocks.csv` and `transactions.csv` in the current directory.
