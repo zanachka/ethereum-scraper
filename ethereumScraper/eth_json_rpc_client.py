@@ -1,17 +1,16 @@
 import scrapy
 import json
 
-DEFAULT_URL = 'http://localhost:8545'
 
 class EthJsonRpcClient(object):
 
-    def __init__(self, url=DEFAULT_URL):
+    def __init__(self, url):
         self.url = url
 
     def eth_getBlockByNumber(self, block=0, tx_objects=True):
-        '''
+        """
         https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_getblockbynumber
-        '''
+        """
         block = self.validate_block(block)
         return self._call('eth_getBlockByNumber', [block, tx_objects])
 

@@ -7,22 +7,21 @@ from ethereumScraper.eth_json_rpc_client import EthJsonRpcClient
 class JsonRpcSpider(scrapy.Spider):
     name = "JsonRpcSpider"
 
-    def _set_crawler(self, crawler):
-        super(JsonRpcSpider, self)._set_crawler(crawler)
-        jsonrpc_url = self.settings['ETH_JSON_RPC_URL']
-        self.eth_client = EthJsonRpcClient(jsonrpc_url)
+    def from_crawler(self, crawler, *args, **kwargs):
+        super(JsonRpcSpider, self).from_crawler(crawler, *args, **kwargs)
+        json_rpc_url = self.settings['ETH_JSON_RPC_URL']
+        self.eth_client = EthJsonRpcClient(json_rpc_url)
 
     def start_requests(self):
         start_block = int(self.settings['START_BLOCK'])
         end_block = int(self.settings['END_BLOCK'])
-        for i in range(start_block, end_block):
-            request = self.eth_client.eth_getBlockByNumber(i)
-            request.callback = self.parse_block
+        for block_number in range(start_block, end_block):
+            request = self.eth_client.eth_getBlockByNumber(block_number)
             yield request
 
-    def parse_block(self, response):
-        jsonresponse = json.loads(response.body_as_unicode())
-        result = jsonresponse['result']
+    def parse(self, response):
+        json_response = json.loads(response.body_as_unicode())
+        result = json_response['result']
         yield {
             'type': 'b',
             'block_number': hex_to_dec(result.get('number', None)),
