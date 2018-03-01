@@ -9,21 +9,21 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'ethereumScraper'
+BOT_NAME = 'ethscraper'
 
-ETH_JSON_RPC_URL = 'https://mainnet.infura.io/eQq8vdX3vS511ulZw8fr'
+ETH_JSON_RPC_URL = 'https://mainnet.infura.io/<your_api_key>'
 # ETH_JSON_RPC_URL = 'http://localhost:8545'
 START_BLOCK = 0
 END_BLOCK = 10
 
-SPIDER_MODULES = ['ethereumScraper.spiders']
-NEWSPIDER_MODULE = 'ethereumScraper.spiders'
+SPIDER_MODULES = ['ethscraper.spiders']
+NEWSPIDER_MODULE = 'ethscraper.spiders'
 LOG_LEVEL = 'INFO'
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'ethereumScraper.pipelines.EthereumScraperExportPipeline': 300,
+    'ethscraper.pipelines.EthereumScraperExportPipeline': 300,
 }
 
 DOWNLOADER_MIDDLEWARES = {
@@ -31,7 +31,7 @@ DOWNLOADER_MIDDLEWARES = {
 }
 
 RETRY_TIMES = 5
-RETRY_HTTP_CODES = [500, 503, 504, 400, 403, 404, 408]
+RETRY_HTTP_CODES = [500, 503, 504, 408]
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'ethereumTx (+http://www.yourdomain.com)'

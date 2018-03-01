@@ -1,14 +1,14 @@
 import scrapy
 import json
-from ethereumScraper.utils import hex_to_dec
-from ethereumScraper.eth_json_rpc_client import EthJsonRpcClient
+from ethscraper.utils import hex_to_dec
+from ethscraper.eth_json_rpc_client import EthJsonRpcClient
 
 
 class JsonRpcSpider(scrapy.Spider):
     name = "JsonRpcSpider"
 
-    def from_crawler(self, crawler, *args, **kwargs):
-        super(JsonRpcSpider, self).from_crawler(crawler, *args, **kwargs)
+    def _set_crawler(self, crawler):
+        super(JsonRpcSpider, self)._set_crawler(crawler)
         json_rpc_url = self.settings['ETH_JSON_RPC_URL']
         self.eth_client = EthJsonRpcClient(json_rpc_url)
 

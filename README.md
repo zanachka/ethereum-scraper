@@ -6,7 +6,7 @@ Run in terminal (change the ETH_JSON_RPC_URL parameter):
 
 ```
 > pip install Scrapy
-> scrapy runspider ethereumScraper/spiders/eth_json_rpc_spider.py -s ETH_JSON_RPC_URL=https://mainnet.infura.io/XXXXXXXXXXXXXXXXXXX -s START_BLOCK=0 -s END_BLOCK=1000000
+> scrapy runspider ethscraper/spiders/eth_json_rpc_spider.py -s ETH_JSON_RPC_URL=https://mainnet.infura.io/XXXXXXXXXXXXXXXXXXX -s START_BLOCK=0 -s END_BLOCK=1000000
 ```
 
 The output will be in `blocks.csv` and `transactions.csv` in the current directory.
@@ -65,7 +65,7 @@ To scrape contract bytecode and Solidity code from Etherscan:
 
 ```
 > pip install Scrapy
-> scrapy runspider ethereumScraper/spiders/etherscan_contract_spider.py -o data.csv
+> scrapy runspider ethscraper/spiders/etherscan_contract_spider.py -o data.csv
 ```
 
 Note that CloudFlare will block your machine after a few thousand requests.
