@@ -34,7 +34,8 @@ class EtherscanContractSpider(scrapy.Spider):
         solidity = contract_response.css('#editor::text').extract()
 
         if address is None or bytecode is None or solidity is None:
-            self.logger.error('Address or bytecode or Solidity code are empty "%s" "%s" "%s"'  % (address, bytecode, solidity))
+            self.logger.error(
+                'Address or bytecode or Solidity code are empty "%s" "%s" "%s"' % (address, bytecode, solidity))
             yield scrapy.Request(contract_response.url, callback=self.parse_contract, dont_filter=True)
             return
 

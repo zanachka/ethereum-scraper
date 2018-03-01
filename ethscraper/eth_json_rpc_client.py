@@ -5,6 +5,8 @@ import json
 class EthJsonRpcClient(object):
 
     def __init__(self, url):
+        if not url:
+            raise ValueError('url can\'t be None or empty')
         self.url = url
 
     def eth_getBlockByNumber(self, block=0, tx_objects=True):

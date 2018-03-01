@@ -2,11 +2,15 @@
 
 ## JSON RPC Scraper
  
-Run in terminal (change the ETH_JSON_RPC_URL parameter):
+Run in the terminal (change the ETH_JSON_RPC_URL parameter):
 
 ```
 > pip install Scrapy
-> scrapy runspider ethscraper/spiders/eth_json_rpc_spider.py -s ETH_JSON_RPC_URL=https://mainnet.infura.io/XXXXXXXXXXXXXXXXXXX -s START_BLOCK=0 -s END_BLOCK=1000000
+> scrapy runspider ethscraper/spiders/eth_json_rpc_spider.py \
+-s ETH_JSON_RPC_URL=https://mainnet.infura.io/<your_api_key> \
+-s START_BLOCK=0 \
+-s END_BLOCK=1000000 \
+-s EXPORT_FORMAT=csv
 ```
 
 The output will be in `blocks.csv` and `transactions.csv` in the current directory.

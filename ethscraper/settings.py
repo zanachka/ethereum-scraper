@@ -15,6 +15,8 @@ ETH_JSON_RPC_URL = 'https://mainnet.infura.io/<your_api_key>'
 # ETH_JSON_RPC_URL = 'http://localhost:8545'
 START_BLOCK = 0
 END_BLOCK = 10
+# Possible values: csv, xml, json, jl
+EXPORT_FORMAT = 'csv'
 
 SPIDER_MODULES = ['ethscraper.spiders']
 NEWSPIDER_MODULE = 'ethscraper.spiders'

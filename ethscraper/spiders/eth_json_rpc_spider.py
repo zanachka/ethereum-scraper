@@ -15,7 +15,12 @@ class JsonRpcSpider(scrapy.Spider):
     def start_requests(self):
         start_block = int(self.settings['START_BLOCK'])
         end_block = int(self.settings['END_BLOCK'])
-        for block_number in range(start_block, end_block):
+
+        if start_block >= end_block:
+            self.logger.warning("START_BLOCK {} is less than or equal to END_BLOCK {}").format(start_block, end_block)
+            return
+
+        for block_number in range(start_block, end_block + 1):
             request = self.eth_client.eth_getBlockByNumber(block_number)
             yield request
 
