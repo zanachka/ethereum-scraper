@@ -57,4 +57,4 @@ class EthereumScraperExportPipeline(object):
         elif export_format == 'jl':
             return JsonLinesItemExporter(f)
         else:
-            raise ValueError('format {} is not supported'.format(export_format))
+            raise ValueError('Export format {} is not supported'.format(export_format))

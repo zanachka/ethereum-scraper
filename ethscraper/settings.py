@@ -35,11 +35,7 @@ DOWNLOADER_MIDDLEWARES = {
 RETRY_TIMES = 5
 RETRY_HTTP_CODES = [500, 503, 504, 408]
 
-# Crawl responsibly by identifying yourself (and your website) on the user-agent
-# USER_AGENT = 'ethereumTx (+http://www.yourdomain.com)'
-
-# Configure maximum concurrent requests performed by Scrapy (default: 16)
-# CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 10
 
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
