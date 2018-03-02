@@ -16,6 +16,12 @@ class EthJsonRpcClient(object):
         block = self.validate_block(block)
         return self._call('eth_getBlockByNumber', [block, tx_objects])
 
+    def eth_getTransactionReceipt(self, tx_hash):
+        """
+        https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_gettransactionreceipt
+        """
+        return self._call('eth_getTransactionReceipt', [tx_hash])
+
     def _call(self, method, params=None, _id=1):
         data = {
             'jsonrpc': '2.0',

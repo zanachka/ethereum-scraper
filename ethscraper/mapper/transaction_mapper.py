@@ -4,6 +4,8 @@ from ethscraper.utils import hex_to_dec
 class EthTransactionMapper(object):
 
     def json_dict_to_transaction(self, json_dict):
+        # type: ({}) -> EthTransaction
+
         transaction = EthTransaction()
         transaction.hash = json_dict.get('hash', None)
         transaction.nonce = hex_to_dec(json_dict.get('nonce', None))
@@ -19,6 +21,8 @@ class EthTransactionMapper(object):
         return transaction
 
     def transaction_to_dict(self, transaction):
+        # type: (EthTransaction) -> {}
+
         return {
             'type': 't',
             'tx_hash': transaction.hash,

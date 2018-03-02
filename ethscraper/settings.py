@@ -18,6 +18,9 @@ END_BLOCK = 10
 # Possible values: csv, xml, json, jsonlines, pickle, marshal
 FEED_FORMAT = 'csv'
 
+EXPORT_TRANSACTIONS = True
+EXPORT_ERC20_TRANSFERS = True
+
 SPIDER_MODULES = ['ethscraper.spiders']
 NEWSPIDER_MODULE = 'ethscraper.spiders'
 LOG_LEVEL = 'INFO'

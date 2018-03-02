@@ -13,7 +13,7 @@ Run in the terminal (change the ETH_JSON_RPC_URL parameter):
 -s FEED_FORMAT=csv
 ```
 
-The output will be in `blocks.csv` and `transactions.csv` in the current directory.
+The output will be in `blocks.csv`, `transactions.csv`, `erc20_transfers.csv` in the current directory.
 
 To scrape from local Ethereum node start `geth` with `--rpc` flag:
 
@@ -22,6 +22,13 @@ geth --rpc --rpccorsdomain "*"
 ```
 
 Then use `ETH_JSON_RPC_URL=http://localhost:8545`
+
+Transactions and ERC20 transfers export can be disabled with
+
+```
+-s EXPORT_TRANSACTIONS=False \
+-s EXPORT_ERC20_TRANSFERS=False
+```
 
 ### Feed Formats
 
@@ -71,6 +78,18 @@ tx_value            | bigint      |
 tx_gas              | bigint      |
 tx_gas_price        | bigint      |
 tx_input            | hex_string  |
+
+`erc20_transfers.csv`
+
+Column              |    Type     |
+--------------------|--------------
+erc20_token         | hex_string  |
+erc20_from          | hex_string  |
+erc20_to            | hex_string  |
+erc20_value         | bigint      |
+erc20_tx_hash       | hex_string  |
+erc20_block_number  | bigint      |
+
 
 
 ## Etherscan Scraper

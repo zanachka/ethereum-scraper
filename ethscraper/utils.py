@@ -10,3 +10,7 @@ def hex_to_dec(str):
 
 def without_key(dictionary, key):
     return {k: dictionary[k] for k in dictionary if k != key}
+
+
+def chunk_string(string, length):
+    return (string[0 + i:length + i] for i in range(0, len(string), length))

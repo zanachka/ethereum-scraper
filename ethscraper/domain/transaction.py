@@ -8,5 +8,5 @@ class EthTransaction(object):
     to_address = None
     value = None
     gas = None
-    gasPrice = None
+    gas_price = None
     input = None

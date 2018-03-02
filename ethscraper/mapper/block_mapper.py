@@ -8,6 +8,8 @@ class EthBlockMapper(object):
     transaction_mapper = EthTransactionMapper()
 
     def json_dict_to_block(self, json_dict):
+        # type: ({}) -> EthBlock
+
         block = EthBlock()
         block.number = hex_to_dec(json_dict.get('number', None))
         block.hash = json_dict.get('hash', None)
@@ -32,6 +34,8 @@ class EthBlockMapper(object):
         return block
 
     def block_to_dict(self, block):
+        # type: (EthBlock) -> {}
+
         return {
             'type': 'b',
             'block_number': block.number,
