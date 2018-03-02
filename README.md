@@ -1,43 +1,6 @@
 # Ethereum Scraper
 
 ## JSON RPC Scraper
- 
-Run in the terminal (change the ETH_JSON_RPC_URL parameter):
-
-```
-> pip install Scrapy
-> scrapy runspider ethscraper/spiders/eth_json_rpc_spider.py \
--s ETH_JSON_RPC_URL=https://mainnet.infura.io/<your_api_key> \
--s START_BLOCK=0 \
--s END_BLOCK=1000000 \
--s FEED_FORMAT=csv
-```
-
-The output will be in `blocks.csv`, `transactions.csv`, `erc20_transfers.csv` in the current directory.
-
-To scrape from local Ethereum node start `geth` with `--rpc` flag:
-
-```
-geth --rpc --rpccorsdomain "*"
-```
-
-Then use `ETH_JSON_RPC_URL=http://localhost:8545`
-
-Transactions and ERC20 transfers export can be disabled with
-
-```
--s EXPORT_TRANSACTIONS=False \
--s EXPORT_ERC20_TRANSFERS=False
-```
-
-### Feed Formats
-
-- csv
-- xml
-- json
-- jsonlines [http://jsonlines.org/examples/](http://jsonlines.org/examples/)
-- pickle [https://docs.python.org/2/library/pickle.html](https://docs.python.org/2/library/pickle.html)
-- marshal
 
 ### Schema
 
@@ -90,6 +53,44 @@ erc20_value         | bigint      |
 erc20_tx_hash       | hex_string  |
 erc20_block_number  | bigint      |
 
+### Usage
+ 
+Run in the terminal (change the ETH_JSON_RPC_URL parameter):
+
+```
+> pip install Scrapy
+> scrapy runspider ethscraper/spiders/eth_json_rpc_spider.py \
+-s ETH_JSON_RPC_URL=https://mainnet.infura.io/<your_api_key> \
+-s START_BLOCK=0 \
+-s END_BLOCK=1000000 \
+-s FEED_FORMAT=csv
+```
+
+The output will be in `blocks.csv`, `transactions.csv`, `erc20_transfers.csv` in the current directory.
+
+To scrape from local Ethereum node start `geth` with `--rpc` flag:
+
+```
+geth --rpc --rpccorsdomain "*"
+```
+
+Then use `ETH_JSON_RPC_URL=http://localhost:8545`
+
+Transactions and ERC20 transfers export can be disabled with
+
+```
+-s EXPORT_TRANSACTIONS=False \
+-s EXPORT_ERC20_TRANSFERS=False
+```
+
+### Feed Formats
+
+- csv
+- xml
+- json
+- jsonlines [http://jsonlines.org/examples/](http://jsonlines.org/examples/)
+- pickle [https://docs.python.org/2/library/pickle.html](https://docs.python.org/2/library/pickle.html)
+- marshal
 
 
 ## Etherscan Scraper
