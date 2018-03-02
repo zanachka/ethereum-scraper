@@ -6,7 +6,7 @@ from ethscraper.eth_json_rpc_client import EthJsonRpcClient
 from ethscraper.mapper.erc20_transfer_mapper import EthErc20TransferMapper
 from ethscraper.mapper.transaction_mapper import EthTransactionMapper
 from ethscraper.mapper.transaction_receipt_mapper import EthTransactionReceiptMapper
-from ethscraper.service.erc2_processor import EthErc20Processor
+from ethscraper.service.erc20_processor import EthErc20Processor
 
 
 class JsonRpcSpider(scrapy.Spider):

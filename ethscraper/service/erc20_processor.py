@@ -28,12 +28,11 @@ class EthErc20Processor(object):
             return None
 
         if topics[0] == TRANSFER_EVENT_TOPIC:
-            # Handle unindexed event fields:
-            # if the number of topics and fields in data part != 4, then it's a weird event
-            if len(topics) < 3 and len(topics) + (len(tx_receipt_log.data) - 2) / 4 != 4:
-                return None
-
+            # Handle unindexed event fields
             topics_with_data = topics + self.split_to_words(tx_receipt_log.data)
+            # if the number of topics and fields in data part != 4, then it's a weird event
+            if len(topics_with_data) != 4:
+                return None
 
             erc20_transfer = EthErc20Transfer()
             erc20_transfer.erc20_token = tx_receipt_log.address
@@ -48,7 +47,9 @@ class EthErc20Processor(object):
 
     @staticmethod
     def split_to_words(data):
-        data_without_0x = data[2:]
-        words = list(chunk_string(data_without_0x, 64))
-        words_with_0x = map(lambda word: '0x' + word, words)
-        return words_with_0x
+        if data and len(data) > 2:
+            data_without_0x = data[2:]
+            words = list(chunk_string(data_without_0x, 64))
+            words_with_0x = map(lambda word: '0x' + word, words)
+            return words_with_0x
+        return []
