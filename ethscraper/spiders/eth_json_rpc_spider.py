@@ -33,7 +33,7 @@ class JsonRpcSpider(scrapy.Spider):
         end_block = int(self.settings['END_BLOCK'])
 
         if start_block > end_block:
-            self.logger.warning("START_BLOCK {} is less than END_BLOCK {}").format(start_block, end_block)
+            self.logger.warning("START_BLOCK {} is greater than END_BLOCK {}").format(start_block, end_block)
             return
 
         for block_number in range(start_block, end_block + 1):
