@@ -55,7 +55,7 @@ erc20_block_number  | bigint      |
 
 ### Usage
  
-Run in the terminal (change the ETH_JSON_RPC_URL parameter):
+Run in the terminal:
 
 ```
 > pip install Scrapy
@@ -66,31 +66,51 @@ Run in the terminal (change the ETH_JSON_RPC_URL parameter):
 -s FEED_FORMAT=csv
 ```
 
-The output will be in `blocks.csv`, `transactions.csv`, `erc20_transfers.csv` in the current directory.
+The output will be in 
+`blocks.csv`, 
+`transactions.csv`, 
+`erc20_transfers.csv` 
+in the current directory.
 
-To scrape from local Ethereum node start `geth` with `--rpc` flag:
+
+### Options
+
+#### `ETH_JSON_RPC_URL`
+
+The Ethereum node JSON RPC url. 
+If running a local geth node start it with `--rpc` option:
 
 ```
 geth --rpc --rpccorsdomain "*"
 ```
 
-Then use `ETH_JSON_RPC_URL=http://localhost:8545`
+Then use `ETH_JSON_RPC_URL=http://localhost:8545`.
 
-Transactions and ERC20 transfers export can be disabled with
+#### `START_BLOCK`, `END_BLOCK`
 
-```
--s EXPORT_TRANSACTIONS=False \
--s EXPORT_ERC20_TRANSFERS=False
-```
+Integers representing the start and end blocks for scraping, inclusive. 
 
-### Feed Formats
+#### `FEED_FORMAT`
 
-- csv
-- xml
-- json
-- jsonlines [http://jsonlines.org/examples/](http://jsonlines.org/examples/)
-- pickle [https://docs.python.org/2/library/pickle.html](https://docs.python.org/2/library/pickle.html)
-- marshal
+Output format. The output files will have the corresponding extension.
+
+Supported formats are: 
+`csv`, 
+`xml`, 
+`json`,
+[`jsonlines`](http://jsonlines.org/examples/), 
+[`pickle`](https://docs.python.org/2/library/pickle.html), 
+`marshal`.
+
+#### `EXPORT_TRANSACTIONS`
+
+Whether to export `transactions.csv` file.
+Possible values: `True`, `False`. 
+
+#### `EXPORT_ERC20_TRANSFERS`
+
+Whether to export `erc20_transfers.csv` file.
+Possible values: `True`, `False`.
 
 
 ## Etherscan Scraper
