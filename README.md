@@ -81,10 +81,17 @@ The Ethereum node JSON RPC url.
 If running a local geth node start it with `--rpc` option:
 
 ```
-geth --rpc --rpccorsdomain "*"
+geth --rpc --rpcapi eth
 ```
 
 Then use `ETH_JSON_RPC_URL=http://localhost:8545`.
+
+For internal transactions you need to connect to a full archive node with `debug` JSON RPC API enabled. 
+To run a full geth node:
+
+```
+geth --rpc --rpcapi eth,debug --syncmode=full --gcmode=archive
+```
 
 #### `START_BLOCK`, `END_BLOCK`
 

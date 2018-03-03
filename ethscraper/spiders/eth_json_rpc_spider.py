@@ -43,8 +43,12 @@ class JsonRpcSpider(scrapy.Spider):
             yield request
 
     def parse_block(self, response):
+        for err in self.handle_error(response):
+            yield err
         json_response = json.loads(response.body_as_unicode())
-        result = json_response['result']
+        result = json_response.get('result', None)
+        if result is None:
+            return
         block = self.block_mapper.json_dict_to_block(result)
 
         yield self.block_mapper.block_to_dict(block)
@@ -60,8 +64,12 @@ class JsonRpcSpider(scrapy.Spider):
                     yield tx_receipt_request
 
     def parse_transaction_receipt(self, response):
+        for err in self.handle_error(response):
+            yield err
         json_response = json.loads(response.body_as_unicode())
-        result = json_response['result']
+        result = json_response.get('result', None)
+        if result is None:
+            return
         receipt = self.transaction_receipt_mapper.json_dict_to_transaction_receipt(result)
 
         erc20_transfers = self.erc20_processor.filter_transfers_from_receipt(receipt)
@@ -69,6 +77,15 @@ class JsonRpcSpider(scrapy.Spider):
         for erc20_transfer in erc20_transfers:
             yield self.erc20_transfer_mapper.erc20_transfer_to_dict(erc20_transfer)
 
+    def handle_error(self, response):
+        json_response = json.loads(response.body_as_unicode())
+        if 'error' in json_response:
+            yield {
+                'type': 'err',
+                'url': response.request.url,
+                'code': json_response['error'].get('code', None),
+                'message': json_response['error'].get('message', None)
+            }
 
     def errback(self, failure):
         self.logger.error(repr(failure))
