@@ -58,8 +58,7 @@ erc20_block_number  | bigint      |
 Run in the terminal:
 
 ```
-> pip install typing
-> pip install Scrapy
+> pip install typing Scrapy
 > scrapy runspider ethscraper/spiders/eth_json_rpc_spider.py \
 -s ETH_JSON_RPC_URL=https://mainnet.infura.io/<your_api_key> \
 -s START_BLOCK=0 \
