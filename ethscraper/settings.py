@@ -28,17 +28,16 @@ LOG_LEVEL = 'INFO'
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'ethscraper.pipelines.EthereumScraperExportPipeline': 300,
 }
 
 DOWNLOADER_MIDDLEWARES = {
     'scrapy.downloadermiddlewares.retry.RetryMiddleware': 200
 }
 
-RETRY_TIMES = 5
+RETRY_TIMES = 10
 RETRY_HTTP_CODES = [500, 503, 504, 408]
 
-CONCURRENT_REQUESTS = 10
+CONCURRENT_REQUESTS = 20
 
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay

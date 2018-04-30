@@ -43,8 +43,7 @@ class EthereumScraperExportPipeline(object):
         return {
             'b': 'blocks',
             't': 'transactions',
-            'erc20': 'erc20_transfers',
-            'err': 'errors'
+            'erc20': 'erc20_transfers'
         }.get(item_type, 'unknown')
 
     @staticmethod

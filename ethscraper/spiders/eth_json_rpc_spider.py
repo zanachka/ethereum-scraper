@@ -12,6 +12,16 @@ from ethscraper.utils import str2bool
 
 class JsonRpcSpider(scrapy.Spider):
     name = "JsonRpcSpider"
+    custom_settings = {
+        'ITEM_PIPELINES': {
+            'ethscraper.pipelines.EthereumScraperExportPipeline': 300,
+        },
+        'DOWNLOADER_MIDDLEWARES': {
+            'scrapy.downloadermiddlewares.retry.RetryMiddleware': None,
+            'ethscraper.middlewares.EthereumScraperErrorHandlerMiddleware': 200
+        }
+    }
+
     block_mapper = EthBlockMapper()
     transaction_mapper = EthTransactionMapper()
     transaction_receipt_mapper = EthTransactionReceiptMapper()
@@ -39,13 +49,11 @@ class JsonRpcSpider(scrapy.Spider):
 
         for block_number in range(start_block, end_block + 1):
             request = self.eth_client.eth_getBlockByNumber(block_number)
+            request.meta['block_number'] = block_number
             request.callback = self.parse_block
-            request.errback = self.errback
             yield request
 
     def parse_block(self, response):
-        for err in self.handle_error(response):
-            yield err
         json_response = json.loads(response.body_as_unicode())
         result = json_response.get('result', None)
         if result is None:
@@ -60,13 +68,12 @@ class JsonRpcSpider(scrapy.Spider):
                     yield self.transaction_mapper.transaction_to_dict(tx)
                 if self.export_erc20_transfers:
                     tx_receipt_request = self.eth_client.eth_getTransactionReceipt(tx.hash)
+                    tx_receipt_request.meta['block_number'] = response.meta.get('block_number', None)
+                    tx_receipt_request.meta['tx_hash'] = tx.hash
                     tx_receipt_request.callback = self.parse_transaction_receipt
-                    tx_receipt_request.errback = self.errback
                     yield tx_receipt_request
 
     def parse_transaction_receipt(self, response):
-        for err in self.handle_error(response):
-            yield err
         json_response = json.loads(response.body_as_unicode())
         result = json_response.get('result', None)
         if result is None:
@@ -77,16 +84,3 @@ class JsonRpcSpider(scrapy.Spider):
 
         for erc20_transfer in erc20_transfers:
             yield self.erc20_transfer_mapper.erc20_transfer_to_dict(erc20_transfer)
-
-    def handle_error(self, response):
-        json_response = json.loads(response.body_as_unicode())
-        if 'error' in json_response:
-            yield {
-                'type': 'err',
-                'url': response.request.url,
-                'code': json_response['error'].get('code', None),
-                'message': json_response['error'].get('message', None)
-            }
-
-    def errback(self, failure):
-        self.logger.error(repr(failure))
