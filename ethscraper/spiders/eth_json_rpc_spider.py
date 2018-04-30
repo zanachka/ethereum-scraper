@@ -7,6 +7,7 @@ from ethscraper.mapper.erc20_transfer_mapper import EthErc20TransferMapper
 from ethscraper.mapper.transaction_mapper import EthTransactionMapper
 from ethscraper.mapper.transaction_receipt_mapper import EthTransactionReceiptMapper
 from ethscraper.service.erc20_processor import EthErc20Processor
+from ethscraper.utils import str2bool
 
 
 class JsonRpcSpider(scrapy.Spider):
@@ -25,8 +26,8 @@ class JsonRpcSpider(scrapy.Spider):
         json_rpc_url = self.settings['ETH_JSON_RPC_URL']
         self.eth_client = EthJsonRpcClient(json_rpc_url)
 
-        self.export_transactions = bool(self.settings['EXPORT_TRANSACTIONS'])
-        self.export_erc20_transfers = bool(self.settings['EXPORT_ERC20_TRANSFERS'])
+        self.export_transactions = str2bool(self.settings['EXPORT_TRANSACTIONS'])
+        self.export_erc20_transfers = str2bool(self.settings['EXPORT_ERC20_TRANSFERS'])
 
     def start_requests(self):
         start_block = int(self.settings['START_BLOCK'])

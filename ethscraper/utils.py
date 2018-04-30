@@ -14,3 +14,10 @@ def without_key(dictionary, key):
 
 def chunk_string(string, length):
     return (string[0 + i:length + i] for i in range(0, len(string), length))
+
+
+def str2bool(obj):
+    if isinstance(obj, basestring):
+        return obj.lower() in ("yes", "true", "t", "1")
+    else:
+        return obj
