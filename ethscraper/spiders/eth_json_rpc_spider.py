@@ -19,6 +19,9 @@ class JsonRpcSpider(scrapy.Spider):
         'DOWNLOADER_MIDDLEWARES': {
             'scrapy.downloadermiddlewares.retry.RetryMiddleware': None,
             'ethscraper.middlewares.EthereumScraperErrorHandlerMiddleware': 200
+        },
+        'SPIDER_MIDDLEWARES': {
+            'ethscraper.middlewares.EthereumScraperErrorHandlerSpiderMiddleware': 100
         }
     }
 
@@ -54,7 +57,7 @@ class JsonRpcSpider(scrapy.Spider):
             yield request
 
     def parse_block(self, response):
-        json_response = json.loads(response.body_as_unicode())
+        json_response = json.loads(response.text)
         result = json_response.get('result', None)
         if result is None:
             return
@@ -74,7 +77,7 @@ class JsonRpcSpider(scrapy.Spider):
                     yield tx_receipt_request
 
     def parse_transaction_receipt(self, response):
-        json_response = json.loads(response.body_as_unicode())
+        json_response = json.loads(response.text)
         result = json_response.get('result', None)
         if result is None:
             return
