@@ -1,3 +1,5 @@
+import logging
+
 from typing import Optional
 
 from ethscraper.domain.erc20_transfer import EthErc20Transfer
@@ -7,6 +9,7 @@ from ethscraper.utils import chunk_string, hex_to_dec
 
 # https://ethereum.stackexchange.com/questions/12553/understanding-logs-and-log-blooms
 TRANSFER_EVENT_TOPIC = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'
+logger = logging.getLogger(__name__)
 
 
 class EthErc20Processor(object):
@@ -24,7 +27,7 @@ class EthErc20Processor(object):
 
         topics = tx_receipt_log.topics
         if len(topics) < 1:
-            print "Topics are empty in log {} of transaction {}".format(tx_receipt_log.log_index, tx_receipt_log.transaction_hash)
+            logger.warning("Topics are empty in log {} of transaction {}".format(tx_receipt_log.log_index, tx_receipt_log.transaction_hash))
             return None
 
         if topics[0] == TRANSFER_EVENT_TOPIC:

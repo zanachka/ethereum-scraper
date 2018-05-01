@@ -2,7 +2,7 @@ import scrapy
 import json
 
 from ethscraper.mapper.block_mapper import EthBlockMapper
-from ethscraper.eth_json_rpc_client import EthJsonRpcClient
+from ethscraper.eth.eth_json_rpc_client import EthJsonRpcClient
 from ethscraper.mapper.erc20_transfer_mapper import EthErc20TransferMapper
 from ethscraper.mapper.transaction_mapper import EthTransactionMapper
 from ethscraper.mapper.transaction_receipt_mapper import EthTransactionReceiptMapper
