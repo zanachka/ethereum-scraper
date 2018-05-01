@@ -55,6 +55,8 @@ erc20_block_number  | bigint      |
 
 ### Usage
  
+Follow the installation guide for Scrapy https://doc.scrapy.org/en/latest/intro/install.html
+
 Run in the terminal:
 
 ```
