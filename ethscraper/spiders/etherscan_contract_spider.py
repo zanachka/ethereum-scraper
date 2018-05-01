@@ -10,6 +10,7 @@ class EtherscanContractSpider(scrapy.Spider):
     ]
     custom_settings = {
         'FEED_EXPORT_FIELDS': ['address', 'bytecode', 'solidity'],
+        'CONCURRENT_REQUESTS': 2,
     }
 
     def parse(self, contracts_verified_response):

@@ -11,6 +11,13 @@ def hex_to_dec(str):
         return str
 
 
+def str_to_bool(obj):
+    if isinstance(obj, str):
+        return obj.lower() in ("yes", "true", "t", "1")
+    else:
+        return obj
+
+
 def without_key(dictionary, key):
     return {k: dictionary[k] for k in dictionary if k != key}
 
@@ -18,9 +25,3 @@ def without_key(dictionary, key):
 def chunk_string(string, length):
     return (string[0 + i:length + i] for i in range(0, len(string), length))
 
-
-def str2bool(obj):
-    if isinstance(obj, str):
-        return obj.lower() in ("yes", "true", "t", "1")
-    else:
-        return obj
