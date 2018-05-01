@@ -25,6 +25,7 @@ class JsonRpcSpider(scrapy.Spider):
         }
     }
 
+    # Dependencies
     block_mapper = EthBlockMapper()
     transaction_mapper = EthTransactionMapper()
     transaction_receipt_mapper = EthTransactionReceiptMapper()
@@ -32,6 +33,7 @@ class JsonRpcSpider(scrapy.Spider):
     erc20_processor = EthErc20Processor()
     eth_client = None
 
+    # Flags
     export_transactions = True
     export_erc20_transfers = True
 

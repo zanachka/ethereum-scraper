@@ -45,9 +45,9 @@ class EthereumScraperErrorHandlerMiddleware(RetryMiddleware):
 
     def process_exception(self, request, exception, spider):
         # Call RetryMiddleware first
-        retried = super(EthereumScraperErrorHandlerMiddleware, self).process_exception(request, exception, spider)
+        retried_request = super(EthereumScraperErrorHandlerMiddleware, self).process_exception(request, exception, spider)
         # If not retried
-        if retried is None:
+        if retried_request is None:
             block_number = request.meta.get('block_number', 'unknown')
             tx_hash = request.meta.get('tx_hash', 'unknown')
 
@@ -58,7 +58,7 @@ class EthereumScraperErrorHandlerMiddleware(RetryMiddleware):
                 .format(block_number, tx_hash, request.text, repr(exception))
             logger.error(error_message)
 
-        return retried
+        return retried_request
 
     @staticmethod
     def has_result(response):
@@ -70,6 +70,7 @@ class EthereumScraperErrorHandlerMiddleware(RetryMiddleware):
             return False
 
 
+# Will not be invoked until this bug is fixed https://github.com/scrapy/scrapy/issues/1015
 class EthereumScraperErrorHandlerSpiderMiddleware(object):
 
     def process_spider_exception(self, response, exception, spider):

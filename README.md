@@ -112,6 +112,13 @@ Possible values: `True`, `False`.
 Whether to export `erc20_transfers.csv` file.
 Possible values: `True`, `False`.
 
+#### `CONCURRENT_REQUESTS`
+
+The number of concurrent requests. Default is `20`.
+
+#### `RETRY_TIMES`
+
+How many times to retry a request in case an error is encountered. Default is `10`.
 
 ### Internal Transactions
 
