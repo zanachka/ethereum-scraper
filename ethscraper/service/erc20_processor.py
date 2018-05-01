@@ -1,6 +1,7 @@
 import logging
 
 from typing import Optional
+from builtins import map
 
 from ethscraper.domain.erc20_transfer import EthErc20Transfer
 from ethscraper.domain.transaction_receipt import EthTransactionReceipt
@@ -17,7 +18,7 @@ class EthErc20Processor(object):
     def filter_transfers_from_receipt(self, tx_receipt):
         # type: (EthTransactionReceipt) -> [EthErc20Transfer]
 
-        erc20_transfers = map(lambda log: self.filter_transfer_from_receipt_log(log), tx_receipt.logs)
+        erc20_transfers = list(map(lambda log: self.filter_transfer_from_receipt_log(log), tx_receipt.logs))
         erc20_transfers = filter(None, erc20_transfers)
 
         return erc20_transfers
@@ -35,6 +36,8 @@ class EthErc20Processor(object):
             topics_with_data = topics + self.split_to_words(tx_receipt_log.data)
             # if the number of topics and fields in data part != 4, then it's a weird event
             if len(topics_with_data) != 4:
+                logger.warning("The number of topics and data parts is not equal to 4 in log {} of transaction {}"
+                               .format(tx_receipt_log.log_index, tx_receipt_log.transaction_hash))
                 return None
 
             erc20_transfer = EthErc20Transfer()
@@ -53,6 +56,6 @@ class EthErc20Processor(object):
         if data and len(data) > 2:
             data_without_0x = data[2:]
             words = list(chunk_string(data_without_0x, 64))
-            words_with_0x = map(lambda word: '0x' + word, words)
+            words_with_0x = list(map(lambda word: '0x' + word, words))
             return words_with_0x
         return []

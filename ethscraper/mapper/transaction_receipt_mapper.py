@@ -1,6 +1,7 @@
 from ethscraper.domain.transaction_receipt import EthTransactionReceipt
 from ethscraper.mapper.transaction_receipt_log_mapper import EthTransactionReceiptLogMapper
 from ethscraper.utils import hex_to_dec
+from builtins import map
 
 
 class EthTransactionReceiptMapper(object):
@@ -22,8 +23,7 @@ class EthTransactionReceiptMapper(object):
         receipt.status = json_dict.get('status', None)
 
         if 'logs' in json_dict:
-            receipt.logs = map(
+            receipt.logs = list(map(
                 lambda log: self.transaction_receipt_log_mapper.json_dict_to_transaction_receipt_log(log),
-                json_dict['logs'])
+                json_dict['logs']))
         return receipt
-

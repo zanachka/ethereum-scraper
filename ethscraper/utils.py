@@ -1,10 +1,13 @@
+from builtins import str
+
+
 def hex_to_dec(str):
     if str is None:
         return None
     try:
         return int(str, 16)
     except ValueError:
-        print "Not a hex string %s" % str
+        print("Not a hex string %s" % str)
         return str
 
 
@@ -17,7 +20,7 @@ def chunk_string(string, length):
 
 
 def str2bool(obj):
-    if isinstance(obj, basestring):
+    if isinstance(obj, str):
         return obj.lower() in ("yes", "true", "t", "1")
     else:
         return obj

@@ -1,6 +1,7 @@
 from ethscraper.domain.block import EthBlock
 from ethscraper.mapper.transaction_mapper import EthTransactionMapper
 from ethscraper.utils import hex_to_dec
+from builtins import map
 
 
 class EthBlockMapper(object):
@@ -29,7 +30,7 @@ class EthBlockMapper(object):
         block.timestamp = json_dict.get('timestamp', None)
 
         if 'transactions' in json_dict:
-            block.transactions = map(lambda tx: self.transaction_mapper.json_dict_to_transaction(tx), json_dict['transactions'])
+            block.transactions = list(map(lambda tx: self.transaction_mapper.json_dict_to_transaction(tx), json_dict['transactions']))
 
         return block
 

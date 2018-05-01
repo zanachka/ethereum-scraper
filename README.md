@@ -58,7 +58,7 @@ erc20_block_number  | bigint      |
 Run in the terminal:
 
 ```
-> pip install typing Scrapy
+> pip install typing future scrapy
 > scrapy runspider ethscraper/spiders/eth_json_rpc_spider.py \
 -s ETH_JSON_RPC_URL=https://mainnet.infura.io/<your_api_key> \
 -s START_BLOCK=0 \
@@ -72,6 +72,7 @@ The output will be in
 `erc20_transfers.csv` 
 in the current directory.
 
+Should work on both python2 and python3. Tested on python2.7.
 
 ### Options
 
