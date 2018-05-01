@@ -37,21 +37,29 @@ class JsonRpcSpider(scrapy.Spider):
     export_transactions = True
     export_erc20_transfers = True
 
-    def start_requests(self):
+    def initialize(self):
         json_rpc_url = self.settings['ETH_JSON_RPC_URL']
         self.eth_client = EthJsonRpcClient(json_rpc_url)
-
         self.export_transactions = str_to_bool(self.settings['EXPORT_TRANSACTIONS'])
         self.export_erc20_transfers = str_to_bool(self.settings['EXPORT_ERC20_TRANSFERS'])
 
-        start_block = int(self.settings['START_BLOCK'])
-        end_block = int(self.settings['END_BLOCK'])
+    def start_requests(self):
+        self.initialize()
 
-        if start_block > end_block:
-            self.logger.warning("START_BLOCK {} is greater than END_BLOCK {}").format(start_block, end_block)
-            return
+        blocks = self.settings['BLOCKS']
+        if blocks is not None and blocks:
+            block_numbers = list(map(lambda number: int(number), blocks.split(',')))
+        else:
+            start_block = int(self.settings['START_BLOCK'])
+            end_block = int(self.settings['END_BLOCK'])
 
-        for block_number in range(start_block, end_block + 1):
+            if start_block > end_block:
+                self.logger.warning("START_BLOCK {} is greater than END_BLOCK {}").format(start_block, end_block)
+                block_numbers = []
+            else:
+                block_numbers = range(start_block, end_block + 1)
+
+        for block_number in block_numbers:
             request = self.eth_client.eth_getBlockByNumber(block_number)
             request.meta['block_number'] = block_number
             request.callback = self.parse_block

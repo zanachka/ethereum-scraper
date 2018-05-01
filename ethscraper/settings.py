@@ -13,6 +13,8 @@ BOT_NAME = 'ethscraper'
 
 ETH_JSON_RPC_URL = 'https://mainnet.infura.io/<your_api_key>'
 # ETH_JSON_RPC_URL = 'http://localhost:8545'
+# Comma separated list of block numbers, takes precedence over START_BLOCK and END_BLOCK
+BLOCKS = None
 START_BLOCK = 0
 END_BLOCK = 10
 # Possible values: csv, xml, json, jsonlines, pickle, marshal
@@ -35,7 +37,7 @@ DOWNLOADER_MIDDLEWARES = {
 }
 
 RETRY_TIMES = 10
-RETRY_HTTP_CODES = [500, 503, 504, 408]
+RETRY_HTTP_CODES = [500, 502, 503, 504, 408]
 
 CONCURRENT_REQUESTS = 20
 
