@@ -30,19 +30,18 @@ class JsonRpcSpider(scrapy.Spider):
     transaction_receipt_mapper = EthTransactionReceiptMapper()
     erc20_transfer_mapper = EthErc20TransferMapper()
     erc20_processor = EthErc20Processor()
+    eth_client = None
 
     export_transactions = True
     export_erc20_transfers = True
 
-    def _set_crawler(self, crawler):
-        super(JsonRpcSpider, self)._set_crawler(crawler)
+    def start_requests(self):
         json_rpc_url = self.settings['ETH_JSON_RPC_URL']
         self.eth_client = EthJsonRpcClient(json_rpc_url)
 
         self.export_transactions = str2bool(self.settings['EXPORT_TRANSACTIONS'])
         self.export_erc20_transfers = str2bool(self.settings['EXPORT_ERC20_TRANSFERS'])
 
-    def start_requests(self):
         start_block = int(self.settings['START_BLOCK'])
         end_block = int(self.settings['END_BLOCK'])
 
