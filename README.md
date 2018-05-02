@@ -53,6 +53,13 @@ erc20_value         | bigint      |
 erc20_tx_hash       | hex_string  |
 erc20_block_number  | bigint      |
 
+### IPC
+
+If you want to export the entire blockchain refer to https://github.com/medvedev1088/ethereum-etl,
+It uses IPC and works way faster.
+
+If you want to export a few blocks / contracts continue reading below.
+
 ### Usage
  
 Follow the installation guide for Scrapy https://doc.scrapy.org/en/latest/intro/install.html
