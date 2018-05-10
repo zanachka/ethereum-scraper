@@ -55,10 +55,10 @@ erc20_block_number  | bigint      |
 
 ### IPC
 
-If you want to export the entire blockchain refer to https://github.com/medvedev1088/ethereum-etl,
+If you want to export the entire blockchain refer to https://github.com/medvedev1088/ethereum-etl.
 It uses IPC and works way faster.
 
-If you want to export a few blocks / contracts continue reading below.
+If you want to export a few thousand blocks / contracts continue reading below.
 
 ### Usage
  
