@@ -1,9 +1,10 @@
 import scrapy
 import json
 
+from ethscraper.utils import generate_get_block_by_number_json_rpc
+
 
 class EthJsonRpcClient(object):
-
     def __init__(self, url):
         if not url:
             raise ValueError('url can\'t be None or empty')
@@ -15,6 +16,9 @@ class EthJsonRpcClient(object):
         """
         block = self.validate_block(block)
         return self._call('eth_getBlockByNumber', [block, tx_objects])
+
+    def eth_getBlockByNumberBatch(self, start, end, tx_objects=True):
+        return self._call_batch(start, end, tx_objects)
 
     def eth_getTransactionReceipt(self, tx_hash):
         """
@@ -32,6 +36,14 @@ class EthJsonRpcClient(object):
         return scrapy.Request(self.url,
                               method='POST',
                               body=json.dumps(data),
+                              headers={'Content-Type': 'application/json'})
+
+    def _call_batch(self, start, end, include_transactions):
+        blocks_rpc = list(generate_get_block_by_number_json_rpc(start, end, include_transactions))
+
+        return scrapy.Request(self.url,
+                              method='POST',
+                              body=json.dumps(blocks_rpc),
                               headers={'Content-Type': 'application/json'})
 
     @staticmethod

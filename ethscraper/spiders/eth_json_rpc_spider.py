@@ -7,7 +7,7 @@ from ethscraper.mapper.erc20_transfer_mapper import EthErc20TransferMapper
 from ethscraper.mapper.transaction_mapper import EthTransactionMapper
 from ethscraper.mapper.transaction_receipt_mapper import EthTransactionReceiptMapper
 from ethscraper.service.erc20_processor import EthErc20Processor
-from ethscraper.utils import str_to_bool
+from ethscraper.utils import str_to_bool, split_to_batches
 
 
 class JsonRpcSpider(scrapy.Spider):
@@ -47,22 +47,13 @@ class JsonRpcSpider(scrapy.Spider):
         self.initialize()
 
         blocks = self.settings['BLOCKS']
-        if blocks is not None and blocks:
-            block_numbers = list(map(lambda number: int(number), blocks.split(',')))
-        else:
-            start_block = int(self.settings['START_BLOCK'])
-            end_block = int(self.settings['END_BLOCK'])
 
-            if start_block > end_block:
-                self.logger.warning("START_BLOCK {} is greater than END_BLOCK {}").format(start_block, end_block)
-                block_numbers = []
-            else:
-                block_numbers = range(start_block, end_block + 1)
+        start_block = int(self.settings['START_BLOCK'])
+        end_block = int(self.settings['END_BLOCK'])
 
-        for block_number in block_numbers:
-            request = self.eth_client.eth_getBlockByNumber(block_number)
-            request.meta['block_number'] = block_number
-            request.callback = self.parse_block
+        for batch_start, batch_end in split_to_batches(start_block, end_block, 100):
+            request = self.eth_client.eth_getBlockByNumberBatch(batch_start, batch_end, True)
+            request.callback = self.parse_block_batch
             yield request
 
     def parse_block(self, response):
@@ -84,6 +75,27 @@ class JsonRpcSpider(scrapy.Spider):
                     tx_receipt_request.meta['tx_hash'] = tx.hash
                     tx_receipt_request.callback = self.parse_transaction_receipt
                     yield tx_receipt_request
+
+    def parse_block_batch(self, response):
+        json_response_batch = json.loads(response.text)
+        for json_response in json_response_batch:
+            result = json_response.get('result', None)
+            if result is None:
+                return
+            block = self.block_mapper.json_dict_to_block(result)
+
+            yield self.block_mapper.block_to_dict(block)
+
+            if self.export_transactions or self.export_erc20_transfers:
+                for tx in block.transactions:
+                    if self.export_transactions:
+                        yield self.transaction_mapper.transaction_to_dict(tx)
+                    if self.export_erc20_transfers:
+                        tx_receipt_request = self.eth_client.eth_getTransactionReceipt(tx.hash)
+                        tx_receipt_request.meta['block_number'] = response.meta.get('block_number', None)
+                        tx_receipt_request.meta['tx_hash'] = tx.hash
+                        tx_receipt_request.callback = self.parse_transaction_receipt
+                        yield tx_receipt_request
 
     def parse_transaction_receipt(self, response):
         json_response = json.loads(response.text)

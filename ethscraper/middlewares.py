@@ -27,8 +27,6 @@ class EthereumScraperErrorHandlerMiddleware(RetryMiddleware):
                 error = 'not TextResponse'
             elif response.status >= 300:
                 error = 'non-2xx status'
-            elif not self.has_result(response):
-                error = 'no result'
 
             if error is not None:
                 block_number = request.meta.get('block_number', 'unknown')
