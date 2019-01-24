@@ -11,6 +11,8 @@
 
 BOT_NAME = 'ethscraper'
 
+USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36'
+
 ETH_JSON_RPC_URL = 'https://mainnet.infura.io/<your_api_key>'
 # ETH_JSON_RPC_URL = 'http://localhost:8545'
 # Comma separated list of block numbers, takes precedence over START_BLOCK and END_BLOCK
