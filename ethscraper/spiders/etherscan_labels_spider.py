@@ -21,45 +21,28 @@ class EtherscanLabelsSpider(scrapy.Spider):
     max_throttles_before_giving_up = 5
     throttle_counter = 0
 
+    root_url = 'https://etherscan.io'
+
     def parse(self, response):
-        root_url = 'https://etherscan.io'
+
         rot_label_elems = response.css('.mb-3 .col-md-4 .dropdown')
         counter = 0
         for root_label_elem in rot_label_elems:
-            if counter >= 10:
-                break
-            counter = counter + 1
+            # if counter >= 1:
+            #     break
+            # counter = counter + 1
 
             root_label = strip(root_label_elem.css('button span::text').extract_first())
             root_label_urls = root_label_elem.css('a::attr(href)')
 
             for root_label_url in root_label_urls:
-                label_list_request = scrapy.Request(root_url + root_label_url.extract(), callback=self.parse_label_list)
-                label_list_request.meta['root_label'] = root_label
-                yield label_list_request
+                root_label_url_extracted = root_label_url.extract()
+                if root_label_url_extracted.startswith('/accounts') or root_label_url_extracted.startswith('/tokens'):
+                    label_list_request = scrapy.Request(self.root_url + root_label_url_extracted, callback=self.parse_label_list)
+                    label_list_request.meta['root_label'] = root_label
+                    yield label_list_request
 
     def parse_label_list(self, response):
-        def e(path):
-            return response.css(path).extract_first()
-
-        root_label = response.meta.get('root_label', None)
-
-        table_row_elems = response.css('.card-body tbody tr')
-
-        items = []
-        for table_row_elem in table_row_elems:
-            address = table_row_elem.css('td:nth-child(1) a::text').extract_first()
-
-            label = strip(table_row_elem.css('td:nth-child(2)::text').extract_first())
-            items.append({
-                'address': address,
-                'label': label
-            })
-            items.append({
-                'address': address,
-                'label': root_label
-            })
-
         if response.css('#address::text').extract_first() == '{Request Throttled}':
             self.throttle_counter = self.throttle_counter + 1
             if self.throttle_counter > self.max_throttles_before_giving_up:
@@ -68,11 +51,33 @@ class EtherscanLabelsSpider(scrapy.Spider):
             print('Request throttled #%d - sleeping %d seconds ...' %
                   (self.throttle_counter, self.seconds_to_sleep))
             sleep(self.seconds_to_sleep)
-            return
         else:
             self.throttle_counter = 0
 
-        return items
+        root_label = response.meta.get('root_label', None)
+
+        table_row_elems = response.css('.card-body tbody tr')
+
+        for table_row_elem in table_row_elems:
+            address = table_row_elem.css('td:nth-child(1) a::text').extract_first()
+
+            label = strip(table_row_elem.css('td:nth-child(2)::text').extract_first())
+            yield {
+                'address': address,
+                'label': label
+            }
+            yield {
+                'address': address,
+                'label': root_label
+            }
+
+        next_page = response.css('.pagination a[aria-label=Next]::attr(href)').extract_first()
+        if table_row_elems and next_page:
+
+            next_page = self.root_url + next_page
+            next_page_request = scrapy.Request(next_page, callback=self.parse_label_list)
+            next_page_request.meta['root_label'] = root_label
+            yield next_page_request
 
 
 def strip(str):

@@ -23,7 +23,7 @@ class EtherscanTokenSpider(scrapy.Spider):
 
     def parse(self, response):
         root_url = 'https://etherscan.io'
-        tokens = response.css('h5')
+        tokens = response.css('h3')
         for token_row in tokens:
             url = root_url + token_row.css('a::attr(href)').extract_first()
             name_with_symbol = token_row.css('a::text').extract_first()
@@ -31,6 +31,7 @@ class EtherscanTokenSpider(scrapy.Spider):
             details_request = scrapy.Request(url, callback=self.parse_detail)
             details_request.meta['name_with_symbol'] = name_with_symbol
             yield details_request
+            break
 
         if tokens:
             self.page = self.page + 1
